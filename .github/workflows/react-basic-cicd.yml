@@ -10,11 +10,11 @@ on:
       - 'package-lock.json'
 
 env:
-  PROJECT_NAME: project-name # 프로젝트 명
+  PROJECT_NAME: chuseok22-home # 프로젝트 명
   DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}
   APP_IMAGE_SUFFIX: "-web"
-  MAIN_PORT: "3001"
-  TEST_PORT: "3002"
+  MAIN_PORT: "3002"
+  TEST_PORT: "3003"
   APP_EXPOSE_PORT: "3000"
 
 jobs:
