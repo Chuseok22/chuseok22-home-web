@@ -2,6 +2,7 @@ node_modules
 dist
 .idea
 .env.*
+docs
 .issue
 .playwright-mcp
 .superpowers
