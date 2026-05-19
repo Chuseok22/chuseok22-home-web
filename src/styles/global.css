@@ -23,6 +23,8 @@
   --color-on-primary: #ffffff;
   --color-on-dark: #ffffff;
   --color-on-dark-soft: #a8acb3;
+  --color-border-on-dark: rgba(255, 255, 255, 0.3);
+  --color-border-on-dark-hover: rgba(255, 255, 255, 0.7);
 
   /* DESIGN.md — Typography */
   --font-base: 'Inter', -apple-system, system-ui, sans-serif;
@@ -31,7 +33,7 @@
   --text-display-mega: clamp(44px, 6vw, 80px);
   --text-display-lg: clamp(36px, 4vw, 52px);
   --text-display-md: clamp(32px, 3.5vw, 44px);
-  --text-display-sm: 36px;
+  --text-display-sm: clamp(24px, 3.5vw, 36px);
   --text-title-lg: 32px;
   --text-title-md: 18px;
   --text-body-md: 16px;

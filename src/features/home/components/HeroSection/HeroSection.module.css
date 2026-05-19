@@ -74,7 +74,7 @@
   align-items: center;
   height: 44px;
   padding: 0 var(--space-xl);
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border: 1.5px solid var(--color-border-on-dark);
   color: var(--color-on-dark);
   border-radius: var(--rounded-pill);
   font-size: var(--text-button);
@@ -83,5 +83,5 @@
 }
 
 .linkSecondary:hover {
-  border-color: rgba(255, 255, 255, 0.7);
+  border-color: var(--color-border-on-dark-hover);
 }
