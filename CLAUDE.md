@@ -19,6 +19,12 @@ Project-level rules for Claude Code. These override global rules on conflicts.
 - Split components by feature and responsibility, but avoid excessive fragmentation that creates too many files without clear value.
 - Prefer a balanced component design: extract reusable or logically distinct UI parts, while keeping closely related implementation together when separation would only add complexity.
 
+## UI Design Rules
+
+- **DESIGN.md를 반드시 참고할 것**: UI 컴포넌트 작성, 스타일 수정, 레이아웃 구성 등 모든 UI 관련 작업 시 `DESIGN.md`를 먼저 읽고 그 내용을 따른다. 예외 없음.
+- DESIGN.md에 정의된 색상, 타이포그래피, 간격, 컴포넌트 스타일 등을 벗어나는 UI 구현은 금지한다.
+- DESIGN.md에 명시되지 않은 UI 패턴이 필요한 경우, 임의로 결정하지 말고 사용자에게 확인 후 DESIGN.md를 먼저 업데이트한다.
+
 ## Reference Docs
 
 - If a reference doc conflicts with the current repository code, follow the current repository code and report that the doc should be updated.
