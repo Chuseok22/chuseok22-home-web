@@ -44,7 +44,7 @@
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 3px 10px;
+  padding: var(--space-xxs) var(--space-sm);
   background-color: var(--color-surface-strong);
   color: var(--color-ink);
   border-radius: var(--rounded-pill);
@@ -60,7 +60,7 @@
   font-size: var(--text-body-sm);
   font-weight: 600;
   color: var(--color-primary);
-  padding: 6px 14px;
+  padding: var(--space-xs) var(--space-base);
   border: 1px solid var(--color-hairline);
   border-radius: var(--rounded-pill);
   transition: background-color 0.15s ease, border-color 0.15s ease;
