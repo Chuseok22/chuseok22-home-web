@@ -26,7 +26,7 @@ export default function EmbedCard({
   meta,
 }: EmbedCardProps) {
   return (
-    <div className={styles.card} style={{ borderLeftColor: accentColor }}>
+    <div className={styles.card} style={{ '--card-accent': accentColor } as React.CSSProperties}>
       <div className={styles.header}>
         {icon && <span className={styles.icon}>{icon}</span>}
         <div className={styles.titleRow}>
