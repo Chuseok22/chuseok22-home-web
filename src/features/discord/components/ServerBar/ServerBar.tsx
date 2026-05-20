@@ -20,10 +20,12 @@ export default function ServerBar() {
           return (
             <div key={server.id} className={styles.serverItem}>
               <div
-                className={`${styles.indicator} ${isActive ? styles.indicatorActive : ''}`}
+                className={styles.indicator}
+                data-active={isActive}
               />
               <motion.button
-                className={`${styles.icon} ${isActive ? styles.iconActive : ''}`}
+                className={styles.icon}
+                data-active={isActive}
                 onClick={() => handleServerClick(server.id, server.defaultChannel)}
                 aria-label={server.name}
                 aria-current={isActive ? 'page' : undefined}
