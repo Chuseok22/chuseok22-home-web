@@ -104,7 +104,8 @@ export default function ChannelSidebar({ isOpen, onClose }: ChannelSidebarProps)
                       return (
                         <button
                           key={channel.id}
-                          className={`${styles.channelItem} ${isActive ? styles.channelItemActive : ''}`}
+                          className={styles.channelItem}
+                          data-active={isActive}
                           onClick={() => handleChannelClick(channel.id)}
                           aria-current={isActive ? 'page' : undefined}
                         >

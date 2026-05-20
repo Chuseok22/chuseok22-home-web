@@ -12,7 +12,7 @@
 - 보고서 파일 저장 위치 및 명명 규칙:
   - 위치: `.report/` 디렉토리 (없으면 자동 생성)
   - 파일명: `[YYYYMMDD]_[ISSUE#]_[간단한설명].md`
-  - 예시: `20260401_#205_주문완료_페이지_개발.md`
+  - 예시: `20260520_#2_홈_화면_디자인_구성.md`
   - 날짜: 작업 완료 시점 (YYYYMMDD 형식)
   - 설명: 한글/영문, 단어 구분은 언더스코어
 
@@ -55,15 +55,15 @@
 
   **좋은 예:**
   ```
-  "gitignore 중복 항목 추가 문제 확인. 정규화 함수 추가하여 중복 체크 로직 구현"
-  "주문 저장 실패 시 에러 모달 노출 처리 누락 확인. onError 핸들러 추가로 수정"
+  "ChannelSidebar 활성 채널 스타일 분기를 data-* 어트리뷰트 셀렉터로 변경"
+  "EmbedCard hover 상태 CSS 하드코딩 확인. --dc-* 토큰으로 교체"
   ```
 
   **나쁜 예:**
   ```
-  "중복 항목 추가 문제가 확인되었습니다. 정규화 함수가 생성되었습니다."  # 수동태 금지
-  "Claude가 분석한 결과..."  # AI 이름 금지
-  "작성자: Claude Code"  # 작성자 필드 금지
+  "스타일이 변경되었습니다."  # 수동태 금지
+  "Claude가 분석한 결과..."   # AI 이름 금지
+  "작성자: Claude Code"        # 작성자 필드 금지
   ```
 
 - 보고서 분석 프로세스:
@@ -77,29 +77,27 @@
 - PR 제목 규칙:
   - 형식: `[브랜치명] : [타입] : [설명] [이슈링크]`
   - 타입: `feat` (기능), `fix` (버그), `refactor`, `chore`, `docs`
-  - 예시: `주문_완료_페이지_개발 : feat : OrderDetailPage 컴포넌트 추가 https://github.com/waitee-v2/waitee-v2-fe/issues/205`
+  - 예시: `홈_화면_전체_디자인_구성 : feat : WelcomeChannel 컴포넌트 추가 https://github.com/Chuseok22/chuseok22-home-web/issues/2`
   - 현재 프로젝트의 실제 커밋 메시지 패턴 참고: `git log` 확인
 
 - PR 본문 구조:
   - `.report/` 에 저장된 보고서 내용을 기반으로 작성
   - 변경 목적, 주요 변경 파일, 검증 결과 포함
-  - 스크린샷 (UI 변경 시)
-
-- reviewer 지정 방식:
-  - 팀 내 규칙에 따름 (미정의)
+  - UI 변경 시 스크린샷 첨부
 
 - linked issue 규칙:
   - PR 제목 또는 본문에 이슈 URL 포함
-  - 현재 패턴: `https://github.com/waitee-v2/waitee-v2-fe/issues/[번호]`
+  - 이슈 URL 패턴: `https://github.com/Chuseok22/chuseok22-home-web/issues/[번호]`
 
 ## Delivery constraints
 
 - 배포 전 확인 사항:
   - `npm run lint` — 0 errors
-  - `npm run build` — TypeScript 에러 없음, 빌드 성공
-  - (테스트 도입 후) `npx vitest run` — 전체 PASS
-  - Capacitor 빌드: `npx cap sync` → 네이티브 프로젝트 동기화
-  - 환경변수 (`VITE_API_BASE_URL`, `VITE_IMAGE_BASE_URL`, 결제 URL) 설정 확인
+  - `npx tsc --noEmit` — TypeScript 에러 없음
+  - `npm run build` — 빌드 성공
+  - (E2E 도입 후) `npx playwright test` — 전체 PASS
+  - CSS 색상 하드코딩 없음 확인 (`--dc-*` 토큰 사용 여부)
+  - `console.log` 잔류 없음 확인
 
 - feature flag 정책:
   - 현재 미사용. 필요 시 도입 기준:
@@ -107,7 +105,12 @@
     - A/B 테스트가 필요한 경우
 
 - rollback 필요 시 기준:
-  - 결제 흐름 (PG, PAYCO, Voucher) 에서 오류 발생 시 즉시 롤백
-  - 인증(로그인, 토큰) 흐름 장애 시 즉시 롤백
-  - 앱 크래시 또는 빈 화면 발생 시 즉시 롤백
-  - 롤백 방법: 이전 커밋으로 revert PR 생성
+  - 빌드 실패 또는 배포 후 페이지 렌더링 오류 발생 시 즉시 rollback
+  - Discord 레이아웃 구조가 깨지는 경우 즉시 rollback
+  - rollback 방법: 이전 커밋으로 revert PR 생성
+
+## CI/CD 구조
+
+- PR → `react-basic-build.yml` 빌드 체크 (main 브랜치 대상 PR에 자동 실행)
+- push to main → `react-basic-cicd.yml` Docker 빌드 + NAS 배포 자동 실행
+- 브랜치 전략: `main` (프로덕션, 포트 3002), `test` (테스트 환경, 포트 3003)

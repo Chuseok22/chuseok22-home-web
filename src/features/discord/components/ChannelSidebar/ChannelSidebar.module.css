@@ -79,12 +79,12 @@
   color: var(--dc-text-normal);
 }
 
-.channelItemActive {
+.channelItem[data-active="true"] {
   background: var(--dc-bg-secondary-alt);
   color: var(--dc-text-header);
 }
 
-.channelItemActive .hashIcon {
+.channelItem[data-active="true"] .hashIcon {
   color: var(--dc-text-header);
 }
 
