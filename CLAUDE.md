@@ -27,6 +27,13 @@ Project-level rules for Claude Code. These override global rules on conflicts.
 - 애니메이션은 `framer-motion`을 사용한다. `prefers-reduced-motion` 적용 필수.
 - 아이콘은 `lucide-react`를 사용한다. 임의 SVG 인라인 금지.
 
+## External API (예정)
+
+- **API 서버**: Spring Boot 기반, 도메인 `api.chuseok22.com`
+- **Swagger UI**: `https://api.chuseok22.com/docs/swagger/index.html`
+- **Swagger Docs (OpenAPI)**: `https://api.chuseok22.com/v3/api-docs`
+- API 연동 구현 시: 커스텀 훅(`features/discord/hooks/useActivity.ts` 등)으로 캡슐화. 직접 fetch는 컴포넌트에 두지 않는다.
+
 ## Reference Docs
 
 - If a reference doc conflicts with the current repository code, follow the current repository code and report that the doc should be updated.

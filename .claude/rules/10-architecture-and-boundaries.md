@@ -5,6 +5,7 @@
 - 현재 시스템의 상위 구조: SPA (Single Page Application). Discord 4패널 레이아웃을 React로 구현. Vite로 빌드, Nginx/Docker로 서빙
 - 주요 계층: 라우팅 (App.tsx, `/:server/:channel`) → Discord AppShell (4패널) → 채널 콘텐츠 (features/[서버명]) → 공통 컴포넌트 (shared/)
 - 외부 시스템 연동: GitHub Actions → DockerHub → 개인 NAS SSH 배포
+- 예정 API 서버: Spring Boot 기반 `api.chuseok22.com`. Swagger UI: `https://api.chuseok22.com/docs/swagger/index.html`. 연동 시 `features/discord/hooks/`에 커스텀 훅으로 캡슐화
 
 ## Module boundaries
 
