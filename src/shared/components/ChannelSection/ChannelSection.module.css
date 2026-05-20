@@ -1,0 +1,24 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  color: var(--dc-text-header);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.heading[data-size="sm"] {
+  font-size: 20px;
+}
+
+.heading[data-size="lg"] {
+  font-size: 24px;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
