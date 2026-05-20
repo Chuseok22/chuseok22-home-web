@@ -41,6 +41,7 @@
   padding: 0;
 }
 
+/* 4패널 레이아웃 전체 고정: 스크롤은 각 패널 컴포넌트에서 overflow-y: auto로 처리 */
 html,
 body,
 #root {
