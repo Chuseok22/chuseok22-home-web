@@ -1,0 +1,68 @@
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--dc-bg-primary);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.header {
+  height: 48px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--dc-divider);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  background: var(--dc-bg-primary);
+}
+
+.menuButton {
+  display: none;
+  color: var(--dc-interactive-normal);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.menuButton:hover {
+  color: var(--dc-interactive-hover);
+  background: var(--dc-bg-secondary-alt);
+}
+
+.hashIcon {
+  color: var(--dc-text-muted);
+  flex-shrink: 0;
+}
+
+.channelName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dc-text-header);
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.channelContent {
+  padding: 24px 16px;
+  max-width: 860px;
+}
+
+@media (max-width: 767px) {
+  .menuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .channelContent {
+    padding: 16px 12px;
+  }
+}
