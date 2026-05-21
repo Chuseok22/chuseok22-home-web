@@ -1,0 +1,80 @@
+.panel {
+  width: 240px;
+  min-width: 240px;
+  background: var(--dc-bg-secondary);
+  border-left: 1px solid var(--dc-divider);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 16px 8px;
+  border-bottom: 1px solid var(--dc-divider);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dc-text-muted);
+  flex-shrink: 0;
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 12px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dc-brand);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.itemTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dc-text-normal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemMeta {
+  font-size: 11px;
+  color: var(--dc-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemTimestamp {
+  font-size: 11px;
+  color: var(--dc-interactive-muted);
+  margin-top: 2px;
+}
+
+@media (max-width: 767px) {
+  .panel {
+    display: none;
+  }
+}
