@@ -1,0 +1,98 @@
+.card {
+  display: flex;
+  gap: 20px;
+  background: var(--dc-bg-secondary);
+  border: 1px solid var(--dc-card-border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.avatarWrapper {
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* imageSrc 없을 때 이니셜 표시 — 그라데이션은 CSS gradient이므로 토큰 기반 허용 */
+.avatarInitial {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--dc-brand), var(--dc-green));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--dc-text-header);
+  letter-spacing: 0.02em;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nameEn {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dc-text-header);
+}
+
+.nameKo {
+  font-size: 14px;
+  color: var(--dc-text-muted);
+}
+
+.bio {
+  font-size: 14px;
+  color: var(--dc-text-normal);
+  line-height: 1.5;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--dc-bg-secondary-alt);
+  color: var(--dc-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.links {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.linkIcon {
+  display: flex;
+  align-items: center;
+  color: var(--dc-interactive-normal);
+  transition: color 150ms ease;
+}
+
+.linkIcon:hover {
+  color: var(--dc-interactive-hover);
+}
