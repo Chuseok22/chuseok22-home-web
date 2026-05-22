@@ -1,3 +1,5 @@
+@import './typography.css';
+
 :root {
   /* 배경 계층 */
   --dc-bg-tertiary: #202225;
@@ -28,6 +30,10 @@
   /* 구분선 & 테두리 */
   --dc-divider: #26282c;
   --dc-card-border: #40444b;
+
+  /* 특수 용도 */
+  --dc-logo-bg-white: #ffffff;
+  --dc-overlay: rgba(0, 0, 0, 0.8);
 
   /* 폰트 */
   --dc-font: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;

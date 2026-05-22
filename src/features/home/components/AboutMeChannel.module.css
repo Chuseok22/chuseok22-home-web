@@ -1,0 +1,18 @@
+.sectionDivider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 14px;
+}
+
+.sectionLabel {
+  composes: typo-label from global;
+  color: var(--dc-text-muted);
+  white-space: nowrap;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: var(--dc-divider);
+}

@@ -1,0 +1,101 @@
+.card {
+  display: flex;
+  gap: 20px;
+  background: var(--dc-bg-secondary);
+  border: 1px solid var(--dc-card-border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.avatarWrapper {
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* imageSrc 없을 때 이니셜 표시 — 그라데이션은 CSS gradient이므로 토큰 기반 허용 */
+.avatarInitial {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--dc-brand), var(--dc-green));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xl);
+  font-weight: var(--fw-bold);
+  color: var(--dc-text-header);
+  letter-spacing: 0.02em;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nameEn {
+  composes: typo-heading from global;
+  color: var(--dc-text-header);
+}
+
+.nameKo {
+  font-size: var(--text-base);
+  color: var(--dc-text-muted);
+}
+
+.bio {
+  composes: typo-body from global;
+  color: var(--dc-text-normal);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: var(--text-2xs);
+  font-weight: var(--fw-semibold);
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--dc-bg-secondary-alt);
+  color: var(--dc-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.links {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.linkIcon {
+  display: flex;
+  align-items: center;
+  color: var(--dc-interactive-normal);
+  transition: color 150ms ease;
+}
+
+.linkIcon:hover {
+  color: var(--dc-interactive-hover);
+}
+
+.githubIcon {
+  width: 20px;
+  height: 20px;
+}

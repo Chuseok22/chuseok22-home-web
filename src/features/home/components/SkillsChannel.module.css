@@ -1,0 +1,15 @@
+.group {
+  margin-bottom: 16px;
+}
+
+.categoryLabel {
+  composes: typo-label from global;
+  color: var(--dc-text-muted);
+  margin: 0 0 8px 0;
+}
+
+.badgeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

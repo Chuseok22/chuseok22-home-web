@@ -5,16 +5,16 @@
 
 .heading {
   color: var(--dc-text-header);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   margin-bottom: 16px;
 }
 
 .heading[data-size="sm"] {
-  font-size: 20px;
+  font-size: var(--text-xl);
 }
 
 .heading[data-size="lg"] {
-  font-size: 24px;
+  font-size: var(--text-2xl);
 }
 
 .cardList {

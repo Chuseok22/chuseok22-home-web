@@ -1,17 +1,20 @@
-import EmbedCard from '../../../shared/components/EmbedCard/EmbedCard'
 import ChannelSection from '../../../shared/components/ChannelSection/ChannelSection'
-import { skills } from '../constants/homeData'
+import SkillBadge from './SkillBadge/SkillBadge'
+import { skillGroups } from '../constants/homeData'
+import styles from './SkillsChannel.module.css'
 
 export default function SkillsChannel() {
   return (
     <ChannelSection title="🛠 Skills">
-      {skills.map((group) => (
-        <EmbedCard
-          key={group.category}
-          accentColor="var(--dc-brand)"
-          title={group.category}
-          tags={group.items}
-        />
+      {skillGroups.map((group) => (
+        <div key={group.category} className={styles.group}>
+          <h3 className={styles.categoryLabel}>{group.category}</h3>
+          <div className={styles.badgeGrid}>
+            {group.items.map((skill) => (
+              <SkillBadge key={skill.name} {...skill} />
+            ))}
+          </div>
+        </div>
       ))}
     </ChannelSection>
   )
