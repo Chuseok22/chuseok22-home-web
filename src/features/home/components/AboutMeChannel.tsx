@@ -7,6 +7,10 @@ import styles from './AboutMeChannel.module.css'
 export default function AboutMeChannel() {
   return (
     <ChannelSection title="👤 About Me">
+      <div className={styles.sectionDivider}>
+        <span className={styles.sectionLabel}>Experience & Education</span>
+        <div className={styles.dividerLine} />
+      </div>
       <Timeline items={timelineItems} />
       <div className={styles.sectionDivider}>
         <span className={styles.sectionLabel}>Certifications</span>

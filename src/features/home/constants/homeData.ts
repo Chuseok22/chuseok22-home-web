@@ -57,20 +57,20 @@ export const timelineItems: TimelineItem[] = [
     },
   },
   {
-    period: 'Feb 2022 – Present',
+    period: 'Mar 2023 – Present',
     org: 'Sejong University',
     description: 'Computer Engineering (Transfer)',
     logoSrc: '/schools/sejong-university-logo.svg',
     isCurrent: true,
   },
   {
-    period: 'Feb 2021 – Feb 2022',
+    period: 'Mar 2022 – Feb 2023',
     org: 'Sejong University',
     description: 'Mechanical & Aerospace Engineering',
     logoSrc: '/schools/sejong-university-logo.svg',
   },
   {
-    period: 'Mar 2020 – Feb 2021',
+    period: 'Mar 2020 – Feb 2022',
     org: 'Seoul National Univ. of Science & Technology',
     description: 'Architecture Engineering (Withdrew)',
     logoSrc: '/schools/seoul-national-university-of-science-technology.svg',
