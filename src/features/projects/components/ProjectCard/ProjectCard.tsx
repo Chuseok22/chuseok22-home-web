@@ -89,8 +89,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
       {highlights && highlights.length > 0 && (
         <ul className={styles.highlights}>
-          {highlights.map((item, i) => (
-            <li key={i} className={styles.highlightItem}>
+          {highlights.map((item) => (
+            <li key={item} className={styles.highlightItem}>
               {item}
             </li>
           ))}
