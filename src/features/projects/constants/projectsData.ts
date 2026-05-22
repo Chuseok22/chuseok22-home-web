@@ -1,21 +1,37 @@
 export interface ProjectItem {
   id: string
   title: string
-  titleHref?: string
   description: string
   tags: string[]
   accentColor: string
   status: string
+  // 기존 선택 필드
+  titleHref?: string
+  // 팀 프로젝트 확장 필드
+  period?: string
+  teamSize?: number
+  role?: string
+  highlights?: string[]
+  githubHref?: string
+  demoHref?: string
 }
 
 export const teamProjects: ProjectItem[] = [
   {
     id: 'tp-1',
-    title: '팀 프로젝트 예시',
-    description: '팀원들과 함께 진행한 프로젝트입니다. 상세 내용을 추가하세요.',
+    title: '프로젝트명 입력 예정',
+    description: '프로젝트 설명을 입력하세요. 어떤 문제를 해결했는지, 어떤 서비스인지 2-3줄로 작성합니다.',
+    period: '2024.01 ~ 2024.06',
+    teamSize: 4,
+    role: '백엔드 개발',
+    highlights: [
+      '주요 성과 1을 입력하세요.',
+      '주요 성과 2를 입력하세요.',
+    ],
     tags: ['Spring Boot', 'React', 'PostgreSQL'],
     accentColor: 'var(--dc-green)',
     status: '완료',
+    githubHref: 'https://github.com/Chuseok22',
   },
 ]
 
