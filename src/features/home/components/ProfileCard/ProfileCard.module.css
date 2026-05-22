@@ -95,9 +95,7 @@
   color: var(--dc-interactive-hover);
 }
 
-/* GitHub 브랜드 색(흰색) 고정 — hover 색상 변경 없음 */
 .githubIcon {
   width: 20px;
   height: 20px;
-  color: var(--dc-logo-bg-white);
 }
