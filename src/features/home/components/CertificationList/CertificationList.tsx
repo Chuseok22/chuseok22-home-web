@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Certification } from '../../constants/homeData'
 import styles from './CertificationList.module.css'
 
@@ -11,6 +11,15 @@ export default function CertificationList({ items }: CertificationListProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   const selectedCert = selectedIndex !== null ? items[selectedIndex] : null
+
+  useEffect(() => {
+    if (selectedCert === null) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedIndex(null)
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [selectedCert])
 
   return (
     <>

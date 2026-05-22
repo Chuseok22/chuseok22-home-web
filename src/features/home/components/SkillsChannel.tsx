@@ -8,7 +8,7 @@ export default function SkillsChannel() {
     <ChannelSection title="🛠 Skills">
       {skillGroups.map((group) => (
         <div key={group.category} className={styles.group}>
-          <h3 className={styles.categoryLabel}>{group.category.toUpperCase()}</h3>
+          <h3 className={styles.categoryLabel}>{group.category}</h3>
           <div className={styles.badgeGrid}>
             {group.items.map((skill) => (
               <SkillBadge key={skill.name} {...skill} />
