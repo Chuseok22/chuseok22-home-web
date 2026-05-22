@@ -1,3 +1,5 @@
+@import './typography.css';
+
 :root {
   /* 배경 계층 */
   --dc-bg-tertiary: #202225;

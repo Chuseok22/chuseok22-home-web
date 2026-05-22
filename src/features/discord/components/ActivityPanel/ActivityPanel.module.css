@@ -9,15 +9,12 @@
 }
 
 .header {
+  composes: typo-label from global;
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 16px 16px 8px;
   border-bottom: 1px solid var(--dc-divider);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   color: var(--dc-text-muted);
   flex-shrink: 0;
 }
@@ -51,8 +48,8 @@
 }
 
 .itemTitle {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--fw-semibold);
   color: var(--dc-text-normal);
   white-space: nowrap;
   overflow: hidden;
@@ -60,7 +57,7 @@
 }
 
 .itemMeta {
-  font-size: 11px;
+  font-size: var(--text-2xs);
   color: var(--dc-text-muted);
   white-space: nowrap;
   overflow: hidden;
@@ -68,7 +65,7 @@
 }
 
 .itemTimestamp {
-  font-size: 11px;
+  font-size: var(--text-2xs);
   color: var(--dc-interactive-muted);
   margin-top: 2px;
 }

@@ -62,8 +62,8 @@
 }
 
 .emoji {
-  font-size: 20px;
-  line-height: 1;
+  font-size: var(--text-xl);
+  line-height: var(--lh-none);
   user-select: none;
 }
 

@@ -44,8 +44,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: var(--text-md);
+  font-weight: var(--fw-bold);
   color: var(--dc-text-muted);
 }
 
@@ -73,14 +73,14 @@
 }
 
 .period {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--dc-text-muted);
 }
 
 /* Current 뱃지: 초록색 계열 */
 .currentBadge {
-  font-size: 10px;
-  font-weight: 700;
+  font-size: var(--text-2xs);
+  font-weight: var(--fw-bold);
   padding: 1px 6px;
   border-radius: 4px;
   background: var(--dc-green);
@@ -89,14 +89,13 @@
 }
 
 .org {
-  font-size: 14px;
-  font-weight: 600;
+  composes: typo-body-semibold from global;
   color: var(--dc-text-header);
   margin-bottom: 2px;
 }
 
 .description {
-  font-size: 13px;
+  composes: typo-body-sm from global;
   color: var(--dc-text-muted);
   margin-bottom: 4px;
 }

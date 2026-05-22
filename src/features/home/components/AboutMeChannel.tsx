@@ -8,7 +8,7 @@ export default function AboutMeChannel() {
   return (
     <ChannelSection title="👤 About Me">
       <div className={styles.sectionDivider}>
-        <span className={styles.sectionLabel}>Experience & Education</span>
+        <span className={styles.sectionLabel}>Timeline</span>
         <div className={styles.dividerLine} />
       </div>
       <Timeline items={timelineItems} />
