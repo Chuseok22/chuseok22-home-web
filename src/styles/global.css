@@ -29,6 +29,9 @@
   --dc-divider: #26282c;
   --dc-card-border: #40444b;
 
+  /* 특수 용도 */
+  --dc-logo-bg-white: #ffffff;
+
   /* 폰트 */
   --dc-font: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
