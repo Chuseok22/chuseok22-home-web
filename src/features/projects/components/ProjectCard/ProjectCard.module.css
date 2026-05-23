@@ -1,0 +1,117 @@
+.card {
+  background: var(--dc-bg-secondary);
+  border: 1px solid var(--dc-card-border);
+  border-left: 4px solid var(--card-accent, var(--dc-brand));
+  border-radius: 4px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background 150ms ease;
+}
+
+.card:hover {
+  background: var(--dc-bg-secondary-alt);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--text-base);
+  font-weight: var(--fw-bold);
+  color: var(--dc-text-header);
+}
+
+.statusBadge {
+  font-size: var(--text-2xs);
+  font-weight: var(--fw-semibold);
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--dc-bg-tertiary);
+  color: var(--dc-text-muted);
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.links {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.linkBtn {
+  display: flex;
+  align-items: center;
+  color: var(--dc-interactive-normal);
+  transition: color 150ms ease;
+}
+
+.linkBtn:hover {
+  color: var(--dc-interactive-hover);
+}
+
+.githubIcon {
+  width: 15px;
+  height: 15px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  color: var(--dc-text-muted);
+}
+
+.description {
+  composes: typo-body-sm from global;
+  color: var(--dc-text-normal);
+}
+
+.highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.highlightItem {
+  font-size: var(--text-xs);
+  color: var(--dc-text-normal);
+  padding-left: 12px;
+  position: relative;
+}
+
+.highlightItem::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--card-accent, var(--dc-brand));
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}

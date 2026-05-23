@@ -1,0 +1,49 @@
+/* 기본 태그: bgColor 미지정 시 (ProjectCard 등 기술 스택 표시용) */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--dc-bg-primary);
+  color: var(--dc-interactive-hover);
+  border: 1px solid var(--dc-card-border);
+  font-size: var(--text-xs);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+
+/* 색상 지정 태그: bgColor/textColor inline 적용 (SkillsChannel 스킬 배지용) */
+.tagColored {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: var(--text-xs);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* 아이콘 URL 없는 항목의 이름 첫 글자 폴백 (색상 배지에서만 표시) */
+.iconFallback {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-2xs);
+  font-weight: var(--fw-bold);
+  flex-shrink: 0;
+}
+
+.name {
+  line-height: var(--lh-none);
+}
