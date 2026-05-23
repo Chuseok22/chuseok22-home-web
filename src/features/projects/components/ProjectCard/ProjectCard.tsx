@@ -1,5 +1,6 @@
 import { Calendar, Users, Briefcase, ExternalLink } from 'lucide-react'
 import { GithubIcon } from '../../../../assets/icons'
+import TechTag from '../../../../shared/components/TechTag/TechTag'
 import type { ProjectItem } from '../../constants/projectsData'
 import styles from './ProjectCard.module.css'
 
@@ -100,9 +101,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       {tags.length > 0 && (
         <div className={styles.tags}>
           {tags.map((tag) => (
-            <span key={tag} className={styles.tag}>
-              {tag}
-            </span>
+            <TechTag key={tag} name={tag} />
           ))}
         </div>
       )}

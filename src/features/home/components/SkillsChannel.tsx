@@ -1,5 +1,5 @@
 import ChannelSection from '../../../shared/components/ChannelSection/ChannelSection'
-import SkillBadge from './SkillBadge/SkillBadge'
+import TechTag from '../../../shared/components/TechTag/TechTag'
 import { skillGroups } from '../constants/homeData'
 import styles from './SkillsChannel.module.css'
 
@@ -11,7 +11,7 @@ export default function SkillsChannel() {
           <h3 className={styles.categoryLabel}>{group.category}</h3>
           <div className={styles.badgeGrid}>
             {group.items.map((skill) => (
-              <SkillBadge key={skill.name} {...skill} />
+              <TechTag key={skill.name} name={skill.name} bgColor={skill.bgColor} textColor={skill.textColor} />
             ))}
           </div>
         </div>
