@@ -1,6 +1,6 @@
-# CLAUDE.md — chuseok22-home-web
+# AGENTS.md — chuseok22-home-web
 
-Project-level rules for Claude Code. These override global rules on conflicts.
+Project-level rules for Codex. These override global rules on conflicts.
 
 ## Project Overview
 
@@ -29,8 +29,7 @@ Project-level rules for Claude Code. These override global rules on conflicts.
 
 ## External API (예정)
 
-- **API 서버**: Python + Django (DRF) 기반, 도메인 `api.chuseok22.com`
-- **Admin Dashboard**: Django Templates + DaisyUI (SSR)
+- **API 서버**: Spring Boot 기반, 도메인 `api.chuseok22.com`
 - **Swagger UI**: `https://api.chuseok22.com/docs/swagger/index.html`
 - **Swagger Docs (OpenAPI)**: `https://api.chuseok22.com/v3/api-docs`
 - API 연동 구현 시: 커스텀 훅(`features/discord/hooks/useActivity.ts` 등)으로 캡슐화. 직접 fetch는 컴포넌트에 두지 않는다.
