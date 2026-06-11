@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { API_BASE_URL } from '../utils/api'
+import { fetchWithAuth } from '../utils/api'
 
 // localStorage 키 상수
 const ACCESS_TOKEN_KEY = 'sejong_access_token'
@@ -34,10 +34,11 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   }, [accessToken])
 
   const login = async (username: string, password: string): Promise<void> => {
-    const response = await fetch(API_BASE_URL + '/api/v1/auth/token/', {
+    const response = await fetchWithAuth('/api/v1/auth/token/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
+      authRequired: false,
     })
 
     if (!response.ok) {
