@@ -27,13 +27,21 @@ Project-level rules for Claude Code. These override global rules on conflicts.
 - 애니메이션은 `framer-motion`을 사용한다. `prefers-reduced-motion` 적용 필수.
 - 아이콘은 `lucide-react`를 사용한다. 임의 SVG 인라인 금지.
 
-## External API (예정)
+## External API
 
 - **API 서버**: Python + Django (DRF) 기반, 도메인 `api.chuseok22.com`
 - **Admin Dashboard**: Django Templates + DaisyUI (SSR)
 - **Swagger UI**: `https://api.chuseok22.com/docs/swagger/index.html`
 - **Swagger Docs (OpenAPI)**: `https://api.chuseok22.com/v3/api-docs`
-- API 연동 구현 시: 커스텀 훅(`features/discord/hooks/useActivity.ts` 등)으로 캡슐화. 직접 fetch는 컴포넌트에 두지 않는다.
+
+### API 사용 규칙 (필수)
+
+- 모든 API 요청은 반드시 `src/shared/utils/api.ts`의 `fetchWithAuth()`를 사용한다. 직접 `fetch()` 호출 금지.
+- 인증 상태 접근은 반드시 `useAuth()` 훅을 사용한다. localStorage를 컴포넌트나 훅에서 직접 읽지 않는다.
+- API를 호출하는 커스텀 훅은 해당 도메인의 `features/[서버]/[도메인]/hooks/` 하위에 위치한다.
+- 컴포넌트 내부에 직접 fetch 로직을 두지 않는다.
+- API 훅은 `useEffect` + `AbortController`로 요청 취소를 처리한다.
+- 401 응답은 `'UNAUTHORIZED'` 에러 코드로 반환하고, 컴포넌트에서 `useEffect`로 감지해 `logout()` 호출한다.
 
 ## Reference Docs
 
