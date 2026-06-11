@@ -1,0 +1,237 @@
+/* ===== 로그인 뷰 ===== */
+
+.loginWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  min-height: 400px;
+}
+
+.loginCard {
+  background: var(--dc-bg-secondary);
+  border-radius: 8px;
+  padding: 32px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.loginTitle {
+  color: var(--dc-text-header);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.loginSubtitle {
+  color: var(--dc-text-muted);
+  font-size: 13px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.fieldLabel {
+  color: var(--dc-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fieldInput {
+  background: var(--dc-bg-secondary-alt);
+  border: 1px solid var(--dc-card-border);
+  border-radius: 3px;
+  padding: 10px 12px;
+  color: var(--dc-text-normal);
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.fieldInput:focus {
+  border-color: var(--dc-brand);
+}
+
+.loginError {
+  color: var(--dc-red);
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.loginButton {
+  background: var(--dc-brand);
+  color: var(--dc-logo-bg-white);
+  padding: 10px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  cursor: pointer;
+  transition: background 150ms;
+  border: none;
+  font-family: inherit;
+}
+
+.loginButton:hover:not(:disabled) {
+  background: var(--dc-brand-hover);
+}
+
+.loginButton:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+/* ===== 스터디룸 뷰 ===== */
+
+.container {
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.headerTitle {
+  color: var(--dc-text-header);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.logoutButton {
+  color: var(--dc-text-muted);
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  transition: color 150ms;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.logoutButton:hover {
+  color: var(--dc-red);
+}
+
+.dateTabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.dateTab {
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--dc-text-muted);
+  white-space: nowrap;
+  transition: background 150ms, color 150ms;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.dateTab[data-active='true'] {
+  background: var(--dc-bg-secondary-alt);
+  color: var(--dc-text-header);
+}
+
+.dateTab:hover:not([data-active='true']) {
+  background: var(--dc-bg-secondary);
+}
+
+.roomList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.roomCard {
+  background: var(--dc-bg-secondary);
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.roomHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.roomName {
+  color: var(--dc-text-header);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.groupTitle {
+  color: var(--dc-text-muted);
+  font-size: 12px;
+}
+
+.seatBadge {
+  background: var(--dc-bg-tertiary);
+  color: var(--dc-text-muted);
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.slotsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.slot {
+  width: 62px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  border-radius: 3px;
+}
+
+.slot[data-available='true'] {
+  background: color-mix(in srgb, var(--dc-green) 20%, transparent);
+  color: var(--dc-green);
+}
+
+.slot[data-available='false'] {
+  background: var(--dc-bg-secondary-alt);
+  color: var(--dc-interactive-muted);
+}
+
+.loading {
+  color: var(--dc-text-muted);
+  font-size: 14px;
+  padding: 32px 16px;
+  text-align: center;
+}
+
+.error {
+  color: var(--dc-red);
+  font-size: 13px;
+  padding: 16px;
+}

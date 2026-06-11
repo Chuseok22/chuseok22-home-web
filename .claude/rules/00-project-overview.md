@@ -15,8 +15,8 @@
 - Styling: CSS Modules (`*.module.css`) + 글로벌 `--dc-*` CSS Custom Properties (`src/styles/global.css`)
 - Animation: framer-motion (채널 전환, 서버 아이콘 hover, 모바일 스와이프 제스처)
 - Icons: lucide-react
-- Database / storage: 없음 (정적 콘텐츠 중심)
-- External API: Spring Boot 서버 예정 — `api.chuseok22.com` (Swagger: `https://api.chuseok22.com/docs/swagger/index.html`)
+- Database / storage: 없음 (정적 콘텐츠 중심, JWT 토큰은 localStorage 사용)
+- External API: Python + Django (DRF) 서버 — `api.chuseok22.com` (Swagger: `https://api.chuseok22.com/docs/swagger/index.html`)
 - Infra / deployment: 개인 NAS 서버에 Docker 컨테이너로 운영, GitHub Actions CI/CD
 
 ## Important directories
@@ -31,7 +31,9 @@
 - `src/features/lab/`: Lab 서버 채널 콘텐츠 컴포넌트
 - `src/features/about/`: About 서버 채널 콘텐츠 컴포넌트
 - `src/shared/components/EmbedCard/`: 공통 Discord embed 스타일 카드
-- `src/shared/utils/`: 공통 유틸 함수 (`css.ts` — joinClassNames 등)
+- `src/shared/contexts/AuthContext.tsx`: JWT 인증 전역 컨텍스트 (`AuthProvider`, `useAuth`)
+- `src/shared/utils/api.ts`: API fetch 헬퍼 (`fetchWithAuth`, `API_BASE_URL`)
+- `src/shared/utils/css.ts`: CSS 유틸 (`joinClassNames`)
 - `src/styles/global.css`: 전역 CSS (`--dc-*` 토큰 정의)
 - `.github/workflows/`: CI/CD 워크플로
 
@@ -46,6 +48,7 @@
 ```
 
 Projects 채널: 팀프로젝트(#team-projects) / 개인프로젝트(#side-projects, #open-source)
+Lab 채널: 도구(#tools) / 스터디룸 조회(#study-rooms)
 
 ## Main commands
 

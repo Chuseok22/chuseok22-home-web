@@ -9,6 +9,7 @@ import SideProjectsChannel from '../features/projects/components/SideProjectsCha
 import OpenSourceChannel from '../features/projects/components/OpenSourceChannel'
 import LatestPostsChannel from '../features/blog/components/LatestPostsChannel'
 import ToolsChannel from '../features/lab/components/ToolsChannel'
+import StudyRoomsChannel from '../features/lab/library/components/StudyRoomsChannel'
 import BioChannel from '../features/about/components/BioChannel'
 
 // 서버·채널 ID → 채널 콘텐츠 컴포넌트 매핑 테이블
@@ -29,6 +30,7 @@ const channelComponents: Record<string, Record<string, ComponentType>> = {
   },
   lab: {
     tools: ToolsChannel,
+    'study-rooms': StudyRoomsChannel,
   },
   about: {
     bio: BioChannel,

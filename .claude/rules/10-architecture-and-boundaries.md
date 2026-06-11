@@ -8,7 +8,7 @@
     └── App.tsx  /:server/:channel 라우팅
           ├── features/discord/   Discord 4패널 레이아웃 인프라
           ├── features/[서버명]/  채널 콘텐츠 (home | projects | blog | lab | about)
-          ├── shared/             공통 컴포넌트, 훅, 유틸, 타입
+          ├── shared/             공통 컴포넌트, 컨텍스트, 유틸, 타입
           └── styles/             글로벌 CSS (--dc-* 토큰)
   ```
 
@@ -25,7 +25,7 @@
 
 - 외부 시스템 연동:
   - GitHub Actions → DockerHub → 개인 NAS SSH 배포
-  - 예정 API 서버: Spring Boot 기반 `api.chuseok22.com`. 연동 시 `features/discord/hooks/`에 커스텀 훅으로 캡슐화
+  - API 서버: Python + Django (DRF) 기반 `api.chuseok22.com`. 모든 요청은 `shared/utils/api.ts`의 `fetchWithAuth()`를 통해 처리. 커스텀 훅은 `features/[서버]/[도메인]/hooks/` 하위에 위치
 
 ## Module boundaries
 
@@ -50,9 +50,12 @@
   **`src/shared/`**
   - 기능 경계를 넘어 2개 이상 feature에서 재사용되는 코드만 위치
   - `components/EmbedCard/`: 공통 Discord embed 스타일 카드
-  - `hooks/`: 공통 훅 (useReducedMotion 등)
-  - `utils/`: 순수 유틸 함수 (`css.ts` — joinClassNames 등)
-  - `types/`: 공통 타입
+  - `components/TechTag/`: 기술 태그 배지 컴포넌트
+  - `components/ChannelSection/`: 채널 섹션 레이아웃 컴포넌트
+  - `contexts/AuthContext.tsx`: JWT 인증 전역 컨텍스트. `AuthProvider`(default) + `useAuth`(named)
+  - `utils/api.ts`: API fetch 헬퍼. `fetchWithAuth()` — Bearer 헤더 자동 첨부
+  - `utils/css.ts`: CSS 유틸. `joinClassNames()` — falsy 값 제외 className 결합
+  - `types/`: 공통 타입 (필요 시)
 
   **`src/styles/`**
   - `global.css`: `--dc-*` CSS Custom Property 전체 정의. DESIGN.md 기반. 여기서만 색상 값 정의
@@ -94,8 +97,19 @@
   [채널명]Channel.tsx
   ```
 
-- 비동기 처리 흐름: 현재 없음. 도입 시 커스텀 훅(`features/discord/hooks/`)으로 캡슐화
-- 캐시/큐/스토리지 사용 방식: 현재 없음
+- 비동기 처리 흐름:
+  ```
+  fetchWithAuth(path)                  ← shared/utils/api.ts (Bearer 헤더 자동 첨부)
+      ↓ useEffect + AbortController
+  features/[서버]/[도메인]/hooks/use*.ts  ← API 커스텀 훅 (상태 관리, 에러 처리)
+      ↓ { data, isLoading, error }
+  [채널명]Channel.tsx                   ← UI 렌더링 (API 훅 소비)
+  ```
+  - 401 응답: 훅에서 `error = 'UNAUTHORIZED'`로 반환 → 컴포넌트의 `useEffect`에서 `logout()` 호출
+- 스토리지 사용 방식:
+  - JWT access token: `localStorage.sejong_access_token` (AuthProvider가 자동 동기화)
+  - JWT refresh token: `localStorage.sejong_refresh_token`
+  - 컴포넌트/훅에서 localStorage 직접 접근 금지 — `useAuth()` 훅 사용
 
 ## File / folder conventions
 
@@ -127,17 +141,31 @@
   ├── components/
   │   ├── [채널명]Channel.tsx
   │   └── [채널명]Channel.module.css  (스타일이 필요한 경우)
-  └── constants/
-      └── [서버명].ts              # 해당 서버의 정적 카드 데이터
+  ├── constants/
+  │   └── [서버명].ts              # 해당 서버의 정적 카드 데이터
+  └── [도메인]/                    # API 연동이 필요한 기능 도메인 (예: lab/library/)
+      ├── components/
+      │   └── [채널명]Channel.tsx
+      ├── hooks/
+      │   └── use[도메인명].ts     # API 커스텀 훅
+      └── types/
+          └── [도메인명].ts        # API 응답 타입
 
   src/shared/
   ├── components/
-  │   └── EmbedCard/
-  │       ├── EmbedCard.tsx
-  │       └── EmbedCard.module.css
-  ├── hooks/
-  │   └── useReducedMotion.ts
+  │   ├── EmbedCard/
+  │   │   ├── EmbedCard.tsx
+  │   │   └── EmbedCard.module.css
+  │   ├── TechTag/
+  │   │   ├── TechTag.tsx
+  │   │   └── TechTag.module.css
+  │   └── ChannelSection/
+  │       ├── ChannelSection.tsx
+  │       └── ChannelSection.module.css
+  ├── contexts/
+  │   └── AuthContext.tsx          # AuthProvider + useAuth
   └── utils/
+      ├── api.ts                   # fetchWithAuth, API_BASE_URL
       └── css.ts                   # joinClassNames 유틸
 
   src/styles/
@@ -162,17 +190,27 @@
 - 새 서버 추가 시:
   1. `features/discord/constants/servers.ts`에 서버 정의 추가
   2. `src/features/[서버명]/` 디렉토리 생성
-  3. `src/app/App.tsx`에 라우트 추가
+  3. `src/app/ChannelRouter.tsx`의 `channelComponents`에 서버 키와 채널 맵핑 추가
 
 - 새 채널 추가 시:
   1. `servers.ts`에 채널 정의 추가
   2. 해당 feature에 `[채널명]Channel.tsx` 컴포넌트 생성
-  3. `App.tsx` 라우트에 채널 경로 연결
+  3. `src/app/ChannelRouter.tsx`의 `channelComponents` 맵에 채널 추가
+
+- 새 도메인(API 연동 기능) 추가 시:
+  1. `features/[서버명]/[도메인명]/` 디렉토리 생성
+  2. `types/`, `hooks/`, `components/` 하위 구조로 구성
+  3. `servers.ts`에 채널 정의 추가
+  4. `ChannelRouter.tsx`에 매핑 추가
 
 - 기존 구현 재사용 포인트:
   - 공통 카드: `src/shared/components/EmbedCard/EmbedCard.tsx`
+  - 기술 태그: `src/shared/components/TechTag/TechTag.tsx`
+  - 채널 섹션 레이아웃: `src/shared/components/ChannelSection/ChannelSection.tsx`
   - className 조합: `src/shared/utils/css.ts`의 `joinClassNames()`
-  - 모션 감지: `src/shared/hooks/useReducedMotion.ts`
+  - API fetch: `src/shared/utils/api.ts`의 `fetchWithAuth()`
+  - 인증 상태: `src/shared/contexts/AuthContext.tsx`의 `useAuth()`
+  - 모션 감지: `framer-motion`의 `useReducedMotion()` (별도 파일 없음)
 
 - 대표적으로 따라야 하는 파일 경로 예시:
   - 레이아웃: `src/features/discord/components/AppShell/AppShell.tsx`

@@ -180,6 +180,97 @@ const shouldReduceMotion = useReducedMotion();
 
 `lucide-react`만 사용한다. 임의 SVG 인라인 금지. DESIGN.md의 아이콘 매핑 표를 따른다.
 
+## API & 인증 패턴
+
+### API 요청 — fetchWithAuth 필수
+
+모든 API 요청은 반드시 `src/shared/utils/api.ts`의 `fetchWithAuth()`를 통해 처리한다. 컴포넌트나 훅에서 직접 `fetch()`를 호출하지 않는다.
+
+```ts
+// 금지 — 직접 fetch 호출
+const response = await fetch('https://api.chuseok22.com/api/v1/...', {
+  headers: { Authorization: `Bearer ${token}` }
+})
+
+// 올바른 사용 — fetchWithAuth
+import { fetchWithAuth } from '../../../../shared/utils/api'
+const response = await fetchWithAuth('/api/v1/...')
+```
+
+### 인증 상태 — useAuth 필수
+
+인증 상태(isLoggedIn, login, logout)는 반드시 `useAuth()` 훅으로 접근한다. localStorage를 직접 읽거나 쓰지 않는다.
+
+```ts
+// 금지 — localStorage 직접 접근
+const token = localStorage.getItem('sejong_access_token')
+
+// 올바른 사용 — useAuth
+import { useAuth } from '../../../../shared/contexts/AuthContext'
+const { isLoggedIn, login, logout } = useAuth()
+```
+
+### API 커스텀 훅 구조
+
+API를 호출하는 훅은 해당 도메인의 `hooks/` 하위에 위치하며, 다음 패턴을 따른다.
+
+```ts
+export function use[도메인명](param: string): { data: T | null; isLoading: boolean; error: string | null } {
+  const [data, setData] = useState<T | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    const fetchData = async (): Promise<void> => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await fetchWithAuth('/api/v1/...', { signal: controller.signal })
+        if (response.status === 401) { setError('UNAUTHORIZED'); return }
+        if (!response.ok) { setError('데이터를 불러오는 데 실패했습니다.'); return }
+        setData(await response.json() as T)
+      } catch (err: unknown) {
+        if (err instanceof DOMException && err.name === 'AbortError') return
+        setError('데이터를 불러오는 데 실패했습니다.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    void fetchData()
+    return () => controller.abort()
+  }, [param])
+
+  return { data, isLoading, error }
+}
+```
+
+**규칙:**
+- `useEffect` + `AbortController` 사용 필수 (unmount 및 의존성 변경 시 요청 취소)
+- 401 응답은 `'UNAUTHORIZED'` 문자열로 반환 (다른 에러와 구분)
+- 컴포넌트에서 `error === 'UNAUTHORIZED'` 감지 시 `logout()` 호출
+
+```tsx
+// 401 처리 패턴
+useEffect(() => {
+  if (error === 'UNAUTHORIZED') logout()
+}, [error, logout])
+```
+
+### 인증이 필요한 채널 구조
+
+인증이 필요한 채널은 `isLoggedIn` 값에 따라 로그인 폼 또는 콘텐츠를 인라인으로 표시한다.
+
+```tsx
+export default function [채널명]Channel() {
+  const { isLoggedIn } = useAuth()
+  // ...
+  return isLoggedIn ? <ContentView /> : <LoginView />
+}
+```
+
 ## Discord UI 관련 규칙
 
 - 패널 구조 고정: ServerBar 72px · ChannelSidebar 240px · ActivityPanel 240px. 임의 변경 금지
@@ -190,11 +281,12 @@ const shouldReduceMotion = useReducedMotion();
 
 | 계층 | 위치 | 역할 | 금지 사항 |
 |------|------|------|-----------|
-| **component** | `features/[서버]/components/` | UI 렌더링, 사용자 인터랙션 처리 | 비즈니스 로직, 직접 데이터 변환 |
-| **hook** | `features/discord/hooks/`, `shared/hooks/` | 상태 관리, 사이드이펙트, 비동기 처리 캡슐화 | UI 렌더링, JSX 반환 |
+| **component** | `features/[서버]/components/` | UI 렌더링, 사용자 인터랙션 처리 | 직접 fetch 호출, localStorage 직접 접근 |
+| **hook** | `features/[서버]/[도메인]/hooks/` | API 호출 캡슐화, 상태 관리, 비동기 처리 | UI 렌더링, JSX 반환 |
+| **context** | `shared/contexts/` | 전역 상태 관리 (인증 등), Provider + hook 쌍 | 특정 feature 로직 |
 | **constants** | `features/[서버]/constants/`, `features/discord/constants/` | 정적 데이터와 상수값 | 로직 없음 |
 | **util** | `shared/utils/` | 순수 함수. 입력 → 출력. 부수효과 없음 | React import, 상태 변경 |
-| **types** | `features/discord/types/`, `shared/types/` | 타입 선언만 | 로직 없음 |
+| **types** | `features/[서버]/[도메인]/types/`, `shared/types/` | 타입 선언만 | 로직 없음 |
 
 - 채널 콘텐츠 컴포넌트: 해당 채널에서 렌더링할 EmbedCard 목록과 레이아웃만 담당. 데이터는 같은 feature의 constants에서 가져옴
 - 레이아웃 인프라(AppShell, ServerBar 등): 특정 서버/채널 콘텐츠를 직접 import하지 않는다. 라우팅이 콘텐츠를 주입
@@ -214,6 +306,10 @@ const shouldReduceMotion = useReducedMotion();
   - `npm run build` 실패 → block
   - features 간 직접 cross-import → block
   - `shared/` → `features/` 역방향 import → block
+  - `fetchWithAuth()` 대신 직접 `fetch()` 호출 → block
+  - `useAuth()` 대신 localStorage 직접 접근 → block
+  - API 훅에서 `AbortController` 누락 → block
+  - 401 처리 없는 API 훅 (인증 필요 엔드포인트) → block
 
 - 성능 / 보안 관점 체크리스트:
   - 불필요한 리렌더링 없음 (useMemo, useCallback 과도 사용도 지양)
