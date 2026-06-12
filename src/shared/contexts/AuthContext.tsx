@@ -46,6 +46,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     }
 
     const data: TokenResponse = await response.json() as TokenResponse
+    // React 리렌더 전에 localStorage에 저장하여 자식 컴포넌트의 fetchWithAuth가 즉시 토큰을 읽을 수 있도록 함
+    localStorage.setItem(ACCESS_TOKEN_KEY, data.access)
     localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh)
     setAccessToken(data.access)
   }
