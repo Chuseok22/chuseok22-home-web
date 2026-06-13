@@ -14,13 +14,15 @@ Discord 특유의 4패널 구조, 채널 기반 내비게이션, 색상 시스�
 
 ### 배경 계층
 
+> Discord 현행 다크 팔레트 (2022+ 리디자인 기준)
+
 | 토큰 | 값 | 용도 |
 |------|----|------|
-| `--dc-bg-tertiary` | `#202225` | 서버 아이콘 바, 최상위 배경 |
-| `--dc-bg-secondary` | `#2f3136` | 채널 사이드바, 활동 패널 배경 |
-| `--dc-bg-primary` | `#36393f` | 메인 콘텐츠 배경 |
-| `--dc-bg-secondary-alt` | `#393c43` | hover 상태, 활성 채널 배경 |
-| `--dc-bg-floating` | `#18191c` | 툴팁, 드롭다운 배경 |
+| `--dc-bg-tertiary` | `#1e1f22` | 서버 아이콘 바, 최상위 배경 |
+| `--dc-bg-secondary` | `#2b2d31` | 채널 사이드바, 활동 패널 배경 |
+| `--dc-bg-primary` | `#313338` | 메인 콘텐츠 배경 |
+| `--dc-bg-secondary-alt` | `#35373c` | hover 상태, 활성 채널 배경 |
+| `--dc-bg-floating` | `#111214` | 툴팁, 드롭다운 배경 |
 
 ### 브랜드 & 상태
 
@@ -37,25 +39,25 @@ Discord 특유의 4패널 구조, 채널 기반 내비게이션, 색상 시스�
 | 토큰 | 값 | 용도 |
 |------|----|------|
 | `--dc-text-header` | `#ffffff` | 서버명, 채널 헤더, 주요 제목 |
-| `--dc-text-normal` | `#dcddde` | 일반 본문 텍스트 |
-| `--dc-text-muted` | `#8e9297` | 채널명, 카테고리, 서브텍스트 |
-| `--dc-text-link` | `#00b0f4` | 임베드 카드 제목 (클릭 가능) |
+| `--dc-text-normal` | `#dbdee1` | 일반 본문 텍스트 |
+| `--dc-text-muted` | `#80848e` | 채널명, 카테고리, 서브텍스트 |
+| `--dc-text-link` | `#00a8fc` | 임베드 카드 제목 (클릭 가능) |
 
 ### 인터랙티브 (아이콘)
 
 | 토큰 | 값 | 용도 |
 |------|----|------|
-| `--dc-interactive-muted` | `#4f545c` | 비활성 아이콘 |
-| `--dc-interactive-normal` | `#b9bbbe` | 기본 아이콘 |
-| `--dc-interactive-hover` | `#dcddde` | hover 아이콘 |
+| `--dc-interactive-muted` | `#4e5058` | 비활성 아이콘 |
+| `--dc-interactive-normal` | `#b5bac1` | 기본 아이콘 |
+| `--dc-interactive-hover` | `#dbdee1` | hover 아이콘 |
 | `--dc-interactive-active` | `#ffffff` | 활성 아이콘 |
 
 ### 구분선 & 테두리
 
 | 토큰 | 값 | 용도 |
 |------|----|------|
-| `--dc-divider` | `#26282c` | 패널 간 구분선 |
-| `--dc-card-border` | `#40444b` | 카드 테두리 |
+| `--dc-divider` | `#1e1f22` | 패널 간 구분선 |
+| `--dc-card-border` | `#4d515a` | 카드 테두리 |
 
 ### 특수 용도
 
