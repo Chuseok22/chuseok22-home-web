@@ -67,8 +67,3 @@
   user-select: none;
 }
 
-@media (max-width: 767px) {
-  .bar {
-    display: none;
-  }
-}

@@ -5,16 +5,44 @@
   background: var(--dc-bg-primary);
 }
 
+/* 데스크톱: 투명 래퍼 — 자식 요소가 shell의 flex item으로 직접 참여 */
+.mobileDrawer {
+  display: contents;
+}
+
 .overlay {
   display: none;
 }
 
 @media (max-width: 767px) {
+  /* 모바일: 고정 슬라이딩 드로어 (ServerBar 72px + ChannelSidebar 240px = 312px) */
+  .mobileDrawer {
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 20;
+    transform: translateX(-312px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mobileDrawer[data-open="true"] {
+    transform: translateX(0);
+  }
+
   .overlay {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--dc-overlay);
     z-index: 10;
+  }
+}
+
+/* prefers-reduced-motion: 슬라이드 트랜지션 비활성화 */
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .mobileDrawer {
+    transition: none;
   }
 }
