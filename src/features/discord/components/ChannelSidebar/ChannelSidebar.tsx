@@ -38,7 +38,7 @@ export default function ChannelSidebar({ onClose }: ChannelSidebarProps) {
   }
 
   return (
-    <motion.aside
+    <aside
       className={styles.sidebar}
       aria-label="채널 목록"
     >
@@ -99,6 +99,6 @@ export default function ChannelSidebar({ onClose }: ChannelSidebarProps) {
           )
         })}
       </div>
-    </motion.aside>
+    </aside>
   )
 }
