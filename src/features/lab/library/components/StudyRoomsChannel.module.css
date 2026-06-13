@@ -216,6 +216,12 @@
 .slot[data-available='true'] {
   background: color-mix(in srgb, var(--dc-green) 20%, transparent);
   color: var(--dc-green);
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.slot[data-available='true']:hover {
+  background: color-mix(in srgb, var(--dc-green) 35%, transparent);
 }
 
 .slot[data-available='false'] {
