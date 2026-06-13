@@ -49,6 +49,7 @@ export function useAttendees(): UseAttendeesResult {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(input),
       })
+      if (response.status === 401) { setError('UNAUTHORIZED'); return null }
       if (response.status !== 200 && response.status !== 201) return null
       const data = (await response.json()) as ReservationAttendee
       setAttendees((prev) => {
@@ -69,6 +70,7 @@ export function useAttendees(): UseAttendeesResult {
         `/api/v1/library/study-rooms/attendees/${id}/`,
         { method: 'DELETE' },
       )
+      if (response.status === 401) { setError('UNAUTHORIZED'); return false }
       if (response.status === 204) {
         setAttendees((prev) => prev.filter((a) => a.id !== id))
         return true

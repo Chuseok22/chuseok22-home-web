@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import { useAuth } from '../../../../shared/contexts/AuthContext'
 import { useAttendees } from '../hooks/useAttendees'
@@ -88,7 +88,7 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
 
   const effectiveAutoSelect = hasFullRoomData(slotInfo.slot) ? autoSelect : true
 
-  function toggleAttendee(id: number): void {
+  const toggleAttendee = useCallback((id: number): void => {
     setSelectedIds((prev) => {
       const next = new Set(prev)
       if (next.has(id)) {
@@ -98,7 +98,7 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
       }
       return next
     })
-  }
+  }, [])
 
   async function handleAddAttendee(): Promise<void> {
     if (newInput.student_id.trim() === '' || newInput.name.trim() === '') return
@@ -146,9 +146,6 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
     }
 
     setResult(response)
-    if (response.success) {
-      onSuccess()
-    }
   }
 
   const timeLabel = slotInfo.slot.time_label
@@ -318,7 +315,11 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
       </div>
 
       <div className={styles.modalFooter}>
-        <button type="button" className={styles.cancelBtn} onClick={onClose}>
+        <button
+          type="button"
+          className={styles.cancelBtn}
+          onClick={result?.success === true ? onSuccess : onClose}
+        >
           {result !== null ? '닫기' : '취소'}
         </button>
         {result === null && (
