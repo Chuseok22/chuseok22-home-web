@@ -1,0 +1,396 @@
+/* ===== 오버레이 ===== */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+/* ===== 모달 컨테이너 ===== */
+
+.modal {
+  background: var(--dc-bg-primary);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--dc-card-border);
+}
+
+.modalTitle {
+  color: var(--dc-text-header);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.modalSubtitle {
+  color: var(--dc-text-muted);
+  font-size: 13px;
+}
+
+.modalBody {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ===== 섹션 ===== */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionLabel {
+  color: var(--dc-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===== 예약 정보 ===== */
+
+.infoRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.infoBadge {
+  background: var(--dc-bg-secondary);
+  color: var(--dc-text-normal);
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+/* ===== Auto-select 토글 ===== */
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggleLabel {
+  color: var(--dc-text-normal);
+  font-size: 13px;
+}
+
+.toggleSwitch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+}
+
+.toggleSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggleTrack {
+  display: block;
+  width: 44px;
+  height: 24px;
+  background: var(--dc-bg-secondary-alt);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.toggleTrack::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--dc-text-muted);
+  border-radius: 50%;
+  transition: transform 150ms, background 150ms;
+}
+
+.toggleSwitch input:checked + .toggleTrack {
+  background: color-mix(in srgb, var(--dc-brand) 30%, transparent);
+}
+
+.toggleSwitch input:checked + .toggleTrack::after {
+  transform: translateX(20px);
+  background: var(--dc-brand);
+}
+
+/* ===== 사용 시간 선택 ===== */
+
+.timeOptions {
+  display: flex;
+  gap: 8px;
+}
+
+.timeOption {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--dc-card-border);
+  background: var(--dc-bg-secondary);
+  color: var(--dc-text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 150ms, color 150ms, background 150ms;
+  font-family: inherit;
+}
+
+.timeOption[data-selected='true'] {
+  border-color: var(--dc-brand);
+  color: var(--dc-brand);
+  background: color-mix(in srgb, var(--dc-brand) 10%, transparent);
+}
+
+.timeOption:hover:not([data-selected='true']) {
+  background: var(--dc-bg-secondary-alt);
+  color: var(--dc-text-normal);
+}
+
+/* ===== 참여자 목록 ===== */
+
+.attendeeList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.attendeeItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: var(--dc-bg-secondary);
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.attendeeItem:hover {
+  background: var(--dc-bg-secondary-alt);
+}
+
+.attendeeCheckbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--dc-brand);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.attendeeName {
+  color: var(--dc-text-normal);
+  font-size: 13px;
+  flex: 1;
+}
+
+.attendeeId {
+  color: var(--dc-text-muted);
+  font-size: 12px;
+}
+
+.deleteAttendeeBtn {
+  background: transparent;
+  border: none;
+  color: var(--dc-text-muted);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  transition: color 150ms;
+  font-family: inherit;
+}
+
+.deleteAttendeeBtn:hover {
+  color: var(--dc-red);
+}
+
+.emptyAttendees {
+  color: var(--dc-text-muted);
+  font-size: 13px;
+  text-align: center;
+  padding: 12px;
+}
+
+/* ===== 새 참여자 추가 폼 ===== */
+
+.addAttendeeToggle {
+  background: transparent;
+  border: 1px dashed var(--dc-card-border);
+  border-radius: 4px;
+  color: var(--dc-text-muted);
+  font-size: 13px;
+  padding: 8px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: border-color 150ms, color 150ms;
+  font-family: inherit;
+}
+
+.addAttendeeToggle:hover {
+  border-color: var(--dc-brand);
+  color: var(--dc-brand);
+}
+
+.newAttendeeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formRow {
+  display: flex;
+  gap: 8px;
+}
+
+.formInput {
+  flex: 1;
+  background: var(--dc-bg-secondary-alt);
+  border: 1px solid var(--dc-card-border);
+  border-radius: 3px;
+  padding: 8px 10px;
+  color: var(--dc-text-normal);
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+}
+
+.formInput:focus {
+  border-color: var(--dc-brand);
+}
+
+.formInput::placeholder {
+  color: var(--dc-interactive-muted);
+}
+
+.addBtn {
+  background: var(--dc-bg-secondary);
+  border: 1px solid var(--dc-card-border);
+  border-radius: 3px;
+  color: var(--dc-text-normal);
+  font-size: 13px;
+  padding: 8px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 150ms;
+  font-family: inherit;
+}
+
+.addBtn:hover:not(:disabled) {
+  background: var(--dc-bg-secondary-alt);
+}
+
+.addBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ===== 인원 카운터 ===== */
+
+.attendeeCount {
+  font-size: 12px;
+  color: var(--dc-text-muted);
+}
+
+.attendeeCount[data-valid='false'] {
+  color: var(--dc-red);
+}
+
+/* ===== 결과 메시지 ===== */
+
+.resultBox {
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-size: 13px;
+}
+
+.resultBox[data-success='true'] {
+  background: color-mix(in srgb, var(--dc-green) 15%, transparent);
+  color: var(--dc-green);
+  border: 1px solid color-mix(in srgb, var(--dc-green) 30%, transparent);
+}
+
+.resultBox[data-success='false'] {
+  background: color-mix(in srgb, var(--dc-red) 15%, transparent);
+  color: var(--dc-red);
+  border: 1px solid color-mix(in srgb, var(--dc-red) 30%, transparent);
+}
+
+.resultTitle {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* ===== 푸터 버튼 ===== */
+
+.modalFooter {
+  padding: 12px 20px 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid var(--dc-card-border);
+}
+
+.cancelBtn {
+  background: transparent;
+  border: none;
+  color: var(--dc-text-muted);
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: color 150ms;
+  font-family: inherit;
+}
+
+.cancelBtn:hover {
+  color: var(--dc-text-normal);
+}
+
+.reserveBtn {
+  background: var(--dc-brand);
+  border: none;
+  color: var(--dc-logo-bg-white);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 150ms;
+  font-family: inherit;
+}
+
+.reserveBtn:hover:not(:disabled) {
+  background: var(--dc-brand-hover);
+}
+
+.reserveBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
