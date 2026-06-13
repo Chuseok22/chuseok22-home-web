@@ -190,6 +190,7 @@
 
 .roomCard {
   background: var(--dc-bg-secondary);
+  border: 1px solid var(--dc-card-border);
   border-radius: 4px;
   padding: 12px;
 }
@@ -235,22 +236,27 @@
   justify-content: center;
   font-size: 11px;
   border-radius: 3px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
 }
 
 .slot[data-available='true'] {
-  background: color-mix(in srgb, var(--dc-green) 20%, transparent);
+  background: color-mix(in srgb, var(--dc-green) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--dc-green) 50%, transparent);
   color: var(--dc-green);
   cursor: pointer;
-  transition: background 150ms;
+  transition: background 150ms, border-color 150ms;
 }
 
 .slot[data-available='true']:hover {
-  background: color-mix(in srgb, var(--dc-green) 35%, transparent);
+  background: color-mix(in srgb, var(--dc-green) 45%, transparent);
+  border-color: var(--dc-green);
 }
 
 .slot[data-available='false'] {
   background: var(--dc-bg-secondary-alt);
-  color: var(--dc-interactive-muted);
+  /* --dc-interactive-muted(#4f545c)는 배경과 대비 부족 → text-muted(#8e9297)로 교체 */
+  color: var(--dc-text-muted);
 }
 
 .loading {
