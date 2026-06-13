@@ -11,11 +11,10 @@ export default function AppShell() {
 
   return (
     <div className={styles.shell}>
-      <ServerBar />
-      <ChannelSidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-      />
+      <div className={styles.mobileDrawer} data-open={isSidebarOpen}>
+        <ServerBar />
+        <ChannelSidebar onClose={() => setIsSidebarOpen(false)} />
+      </div>
       {isSidebarOpen && (
         <div
           className={styles.overlay}

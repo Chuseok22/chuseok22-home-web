@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { Hash, ChevronDown, ChevronRight } from 'lucide-react'
@@ -6,11 +6,10 @@ import { serverMap } from '../../constants/servers'
 import styles from './ChannelSidebar.module.css'
 
 interface ChannelSidebarProps {
-  isOpen: boolean
   onClose: () => void
 }
 
-export default function ChannelSidebar({ isOpen, onClose }: ChannelSidebarProps) {
+export default function ChannelSidebar({ onClose }: ChannelSidebarProps) {
   const navigate = useNavigate()
   const { server: serverId, channel: activeChannel } = useParams<{
     server: string
@@ -18,16 +17,6 @@ export default function ChannelSidebar({ isOpen, onClose }: ChannelSidebarProps)
   }>()
   const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set())
   const shouldReduceMotion = useReducedMotion()
-
-  // 모바일 여부 감지 — 768px 미만에서만 x 슬라이드 애니메이션 적용
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)')
-    setIsMobile(mq.matches)
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [])
 
   const currentServer = serverMap[serverId ?? '']
 
@@ -52,17 +41,6 @@ export default function ChannelSidebar({ isOpen, onClose }: ChannelSidebarProps)
     <motion.aside
       className={styles.sidebar}
       aria-label="채널 목록"
-      initial={false}
-      animate={
-        isMobile
-          ? (shouldReduceMotion ? {} : { x: isOpen ? 0 : -240 })
-          : {}
-      }
-      transition={
-        shouldReduceMotion
-          ? { duration: 0 }
-          : { type: 'spring', stiffness: 300, damping: 30 }
-      }
     >
       <div className={styles.serverHeader}>
         <span className={styles.serverName}>{currentServer?.name ?? ''}</span>
