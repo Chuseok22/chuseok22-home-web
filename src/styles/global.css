@@ -1,12 +1,12 @@
 @import './typography.css';
 
 :root {
-  /* 배경 계층 */
-  --dc-bg-tertiary: #202225;
-  --dc-bg-secondary: #2f3136;
-  --dc-bg-primary: #36393f;
-  --dc-bg-secondary-alt: #393c43;
-  --dc-bg-floating: #18191c;
+  /* 배경 계층 — Discord 현행 다크 팔레트 (2022+ 리디자인) */
+  --dc-bg-tertiary: #1e1f22;
+  --dc-bg-secondary: #2b2d31;
+  --dc-bg-primary: #313338;
+  --dc-bg-secondary-alt: #35373c;
+  --dc-bg-floating: #111214;
 
   /* 브랜드 & 상태 */
   --dc-brand: #5865f2;
@@ -17,19 +17,19 @@
 
   /* 텍스트 */
   --dc-text-header: #ffffff;
-  --dc-text-normal: #dcddde;
-  --dc-text-muted: #8e9297;
-  --dc-text-link: #00b0f4;
+  --dc-text-normal: #dbdee1;
+  --dc-text-muted: #80848e;
+  --dc-text-link: #00a8fc;
 
   /* 인터랙티브 */
-  --dc-interactive-muted: #4f545c;
-  --dc-interactive-normal: #b9bbbe;
-  --dc-interactive-hover: #dcddde;
+  --dc-interactive-muted: #4e5058;
+  --dc-interactive-normal: #b5bac1;
+  --dc-interactive-hover: #dbdee1;
   --dc-interactive-active: #ffffff;
 
   /* 구분선 & 테두리 */
-  --dc-divider: #26282c;
-  --dc-card-border: #40444b;
+  --dc-divider: #1e1f22;
+  --dc-card-border: #4d515a;
 
   /* 특수 용도 */
   --dc-logo-bg-white: #ffffff;

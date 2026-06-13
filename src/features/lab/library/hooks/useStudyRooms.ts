@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { fetchWithAuth } from '../../../../shared/utils/api'
 import type { StudyRoom } from '../types/studyRoom'
 
@@ -6,6 +6,7 @@ interface UseStudyRoomsResult {
   data: StudyRoom[] | null
   isLoading: boolean
   error: string | null
+  refresh: () => void
 }
 
 // date: 'YYYYMMDD' 형식 (예: '20260611')
@@ -13,6 +14,7 @@ export function useStudyRooms(date: string): UseStudyRoomsResult {
   const [data, setData] = useState<StudyRoom[] | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
+  const [refreshTrigger, setRefreshTrigger] = useState(0)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -56,7 +58,11 @@ export function useStudyRooms(date: string): UseStudyRoomsResult {
     return () => {
       controller.abort()
     }
-  }, [date])
+  }, [date, refreshTrigger])
 
-  return { data, isLoading, error }
+  const refresh = useCallback(() => {
+    setRefreshTrigger((n) => n + 1)
+  }, [])
+
+  return { data, isLoading, error, refresh }
 }
