@@ -3,38 +3,47 @@ import { X } from 'lucide-react'
 import { useAuth } from '../../../../shared/contexts/AuthContext'
 import { useAttendees } from '../hooks/useAttendees'
 import { useReserveStudyRoom } from '../hooks/useReserveStudyRoom'
+import { DATE_TABS } from '../constants/studyRoomDates'
+import { computeEndTime } from '../utils/timeFormat'
 import type {
   AttendeeInput,
-  StudyRoom,
   StudyRoomReserveRequest,
   StudyRoomReserveResponse,
-  StudyRoomSlot,
   UseTimeEnum,
 } from '../types/studyRoom'
-import { computeEndTime } from '../utils/timeFormat'
-import styles from './ReservationModal.module.css'
+import styles from './AutoReservationModal.module.css'
 
-export interface ReservationSlotInfo {
-  room: StudyRoom
-  slot: StudyRoomSlot
-  date: string       // YYYYMMDD
-  dateLabel: string  // "6/13 (금)"
-}
+// 스터디룸 운영 시간 기준 시작 시간 옵션
+const START_TIME_OPTIONS = [
+  { value: '0900', label: '09:00' },
+  { value: '1000', label: '10:00' },
+  { value: '1100', label: '11:00' },
+  { value: '1200', label: '12:00' },
+  { value: '1300', label: '13:00' },
+  { value: '1400', label: '14:00' },
+  { value: '1500', label: '15:00' },
+  { value: '1600', label: '16:00' },
+  { value: '1700', label: '17:00' },
+  { value: '1800', label: '18:00' },
+  { value: '1900', label: '19:00' },
+  { value: '2000', label: '20:00' },
+  { value: '2100', label: '21:00' },
+]
 
-interface ReservationModalProps {
+interface AutoReservationModalProps {
   isOpen: boolean
   onClose: () => void
-  slotInfo: ReservationSlotInfo | null
   onSuccess: () => void
+  defaultDateIndex: number
 }
 
-export default function ReservationModal({
+export default function AutoReservationModal({
   isOpen,
   onClose,
-  slotInfo,
   onSuccess,
-}: ReservationModalProps) {
-  if (!isOpen || slotInfo === null) return null
+  defaultDateIndex,
+}: AutoReservationModalProps) {
+  if (!isOpen) return null
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -43,43 +52,46 @@ export default function ReservationModal({
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
-        aria-label="스터디룸 예약"
+        aria-label="자동 방 배정"
       >
-        <ModalContent slotInfo={slotInfo} onClose={onClose} onSuccess={onSuccess} />
+        <ModalContent
+          defaultDateIndex={defaultDateIndex}
+          onClose={onClose}
+          onSuccess={onSuccess}
+        />
       </div>
     </div>
   )
 }
 
 interface ModalContentProps {
-  slotInfo: ReservationSlotInfo
+  defaultDateIndex: number
   onClose: () => void
   onSuccess: () => void
 }
 
-function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
+function ModalContent({ defaultDateIndex, onClose, onSuccess }: ModalContentProps) {
   const { logout } = useAuth()
   const { attendees, isLoading: attendeesLoading, error: attendeesError, addAttendee, deleteAttendee } =
     useAttendees()
   const { isLoading: reserving, reserve } = useReserveStudyRoom()
 
-  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
+  const [dateIndex, setDateIndex] = useState(defaultDateIndex)
+  const [startTime, setStartTime] = useState('0900')
   const [useTime, setUseTime] = useState<UseTimeEnum>(60)
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
   const [newInput, setNewInput] = useState<AttendeeInput>({ student_id: '', name: '' })
   const [showNewForm, setShowNewForm] = useState(false)
   const [addingAttendee, setAddingAttendee] = useState(false)
   const [result, setResult] = useState<StudyRoomReserveResponse | null>(null)
 
-  // 참여자 API 401 → 자동 로그아웃
   useEffect(() => {
     if (attendeesError === 'UNAUTHORIZED') logout()
   }, [attendeesError, logout])
 
   const selectedCount = selectedIds.size
-  const minRequired = Math.ceil(slotInfo.room.seat_cnt / 2)
-  const maxAllowed = slotInfo.room.seat_cnt
-  const isCountValid = selectedCount >= minRequired && selectedCount <= maxAllowed
-
+  // 자동 배정 인원 범위: 6인실 최소(3명) ~ 12인실 최대(12명)
+  const isCountValid = selectedCount >= 3 && selectedCount <= 12
   const canReserve = !reserving && isCountValid && result === null
 
   const toggleAttendee = useCallback((id: number): void => {
@@ -110,63 +122,79 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
   }
 
   async function handleReserve(): Promise<void> {
-    // 방 지정 데이터가 없는 슬롯은 자동 배정으로 폴백
-    const effectiveAutoSelect = !hasFullRoomData(slotInfo.slot)
     const selectedAttendees: AttendeeInput[] = attendees
       .filter((a) => selectedIds.has(a.id))
       .map((a) => ({ student_id: a.student_id, name: a.name }))
 
     const request: StudyRoomReserveRequest = {
-      reserve_date: slotInfo.date,
-      start_time: slotInfo.slot.start_time ?? '',
+      reserve_date: DATE_TABS[dateIndex].dateStr,
+      start_time: startTime,
       use_time: useTime,
-      auto_select: effectiveAutoSelect,
+      auto_select: true,
       attendees: selectedAttendees,
-      ...(!effectiveAutoSelect && slotInfo.slot.room_no !== null
-        ? {
-            room_no: slotInfo.slot.room_no,
-            room_gb: slotInfo.slot.room_gb ?? '',
-            seat_cnt: slotInfo.room.seat_cnt,
-            sroom_title: slotInfo.slot.sroom_title ?? '',
-            room_name: slotInfo.slot.room_name ?? '',
-            seq: slotInfo.slot.seq ?? '',
-          }
-        : {}),
     }
 
     const response = await reserve(request)
     if (response === null) {
-      // 네트워크 오류
-      setResult({ success: false, result_code: 'NETWORK_ERROR', result_message: '요청 중 오류가 발생했습니다.', room_no: '', room_name: '' })
+      setResult({
+        success: false,
+        result_code: 'NETWORK_ERROR',
+        result_message: '요청 중 오류가 발생했습니다.',
+        room_no: '',
+        room_name: '',
+      })
       return
     }
-
     setResult(response)
   }
 
-  const timeLabel = slotInfo.slot.time_label
-  const endTimeLabel = computeEndTime(slotInfo.slot.start_time ?? '', useTime)
+  const selectedTimeLabel = START_TIME_OPTIONS.find((o) => o.value === startTime)?.label ?? startTime
+  const endTimeLabel = computeEndTime(startTime, useTime)
 
   return (
     <>
       <div className={styles.modalHeader}>
         <div>
-          <p className={styles.modalTitle}>스터디룸 예약</p>
+          <p className={styles.modalTitle}>자동 방 배정</p>
           <p className={styles.modalSubtitle}>
-            {slotInfo.dateLabel} · {timeLabel} ~ {endTimeLabel}
+            {result === null
+              ? '조건에 맞는 방을 자동으로 찾아 예약합니다'
+              : `${DATE_TABS[dateIndex].label} · ${selectedTimeLabel} ~ ${endTimeLabel}`}
           </p>
         </div>
       </div>
 
       <div className={styles.modalBody}>
-        {/* 예약 정보 */}
+        {/* 날짜 선택 */}
         <div className={styles.section}>
-          <span className={styles.sectionLabel}>예약 정보</span>
-          <div className={styles.infoRow}>
-            <span className={styles.infoBadge}>{slotInfo.room.room_name}</span>
-            <span className={styles.infoBadge}>{slotInfo.room.seat_cnt}인실</span>
-            <span className={styles.infoBadge}>{slotInfo.room.group_title}</span>
+          <span className={styles.sectionLabel}>날짜</span>
+          <div className={styles.dateTabs}>
+            {DATE_TABS.map((tab, i) => (
+              <button
+                key={tab.dateStr}
+                type="button"
+                className={styles.dateTab}
+                data-selected={dateIndex === i}
+                onClick={() => setDateIndex(i)}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
+        </div>
+
+        {/* 시작 시간 */}
+        <div className={styles.section}>
+          <span className={styles.sectionLabel}>시작 시간</span>
+          <select
+            className={styles.timeSelect}
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+          >
+            {START_TIME_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
         </div>
 
         {/* 사용 시간 */}
@@ -189,9 +217,7 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
 
         {/* 참여자 선택 */}
         <div className={styles.section}>
-          <span className={styles.sectionLabel}>
-            참여자 ({minRequired}~{maxAllowed}명)
-          </span>
+          <span className={styles.sectionLabel}>참여자 (3~12명)</span>
 
           {attendeesLoading ? (
             <p className={styles.emptyAttendees}>참여자 목록 불러오는 중...</p>
@@ -223,7 +249,6 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
             </div>
           )}
 
-          {/* 새 참여자 추가 */}
           {!showNewForm ? (
             <button
               type="button"
@@ -263,7 +288,7 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
                 </button>
                 <button
                   type="button"
-                  className={styles.cancelBtn}
+                  className={styles.cancelInlineBtn}
                   onClick={() => { setShowNewForm(false); setNewInput({ student_id: '', name: '' }) }}
                 >
                   취소
@@ -277,14 +302,14 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
             data-valid={isCountValid || selectedCount === 0 ? 'true' : 'false'}
           >
             선택됨: {selectedCount}명
-            {!isCountValid && selectedCount > 0 && ` (${minRequired}~${maxAllowed}명 필요)`}
+            {!isCountValid && selectedCount > 0 && ' (3~12명 필요)'}
           </span>
         </div>
 
-        {/* 예약 결과 */}
+        {/* 배정 결과 */}
         {result !== null && (
           <div className={styles.resultBox} data-success={result.success}>
-            <p className={styles.resultTitle}>{result.success ? '예약 완료' : '예약 실패'}</p>
+            <p className={styles.resultTitle}>{result.success ? '배정 완료' : '배정 실패'}</p>
             <p>{result.result_message}</p>
             {result.success && <p>{result.room_name}</p>}
           </div>
@@ -306,7 +331,7 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
             onClick={() => void handleReserve()}
             disabled={!canReserve}
           >
-            {reserving ? '예약 중...' : '예약하기'}
+            {reserving ? '배정 중...' : '방 배정하기'}
           </button>
         )}
       </div>
@@ -314,12 +339,3 @@ function ModalContent({ slotInfo, onClose, onSuccess }: ModalContentProps) {
   )
 }
 
-// 슬롯에 auto_select=false에 필요한 필드가 모두 있는지 확인
-function hasFullRoomData(slot: StudyRoomSlot): boolean {
-  return (
-    slot.room_no !== null &&
-    slot.room_gb !== null &&
-    slot.sroom_title !== null &&
-    slot.seq !== null
-  )
-}

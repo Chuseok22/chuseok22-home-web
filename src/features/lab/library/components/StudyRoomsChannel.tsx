@@ -2,27 +2,11 @@ import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useAuth } from '../../../../shared/contexts/AuthContext'
 import { useStudyRooms } from '../hooks/useStudyRooms'
+import { DATE_TABS } from '../constants/studyRoomDates'
 import type { StudyRoom, StudyRoomSlot } from '../types/studyRoom'
+import AutoReservationModal from './AutoReservationModal'
 import ReservationModal from './ReservationModal'
 import styles from './StudyRoomsChannel.module.css'
-
-const KR_WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
-
-function getKSTDateInfo(daysOffset: number): { dateStr: string; label: string } {
-  const kstMs = Date.now() + 9 * 60 * 60 * 1000
-  const kstDate = new Date(kstMs)
-  kstDate.setUTCDate(kstDate.getUTCDate() + daysOffset)
-  const year = kstDate.getUTCFullYear()
-  const month = kstDate.getUTCMonth() + 1
-  const day = kstDate.getUTCDate()
-  const weekday = KR_WEEKDAYS[kstDate.getUTCDay()]
-  return {
-    dateStr: `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`,
-    label: `${month}/${day} (${weekday})`,
-  }
-}
-
-const DATE_TABS = Array.from({ length: 8 }, (_, i) => getKSTDateInfo(i))
 
 // Hook 규칙을 지키기 위해 내부 컴포넌트로 분리
 export default function StudyRoomsChannel() {
@@ -122,6 +106,7 @@ function StudyRoomsView() {
     room: StudyRoom
     slot: StudyRoomSlot
   } | null>(null)
+  const [isAutoModalOpen, setIsAutoModalOpen] = useState(false)
   const { data, isLoading, error, refresh } = useStudyRooms(DATE_TABS[selectedIndex].dateStr)
 
   useEffect(() => {
@@ -154,9 +139,14 @@ function StudyRoomsView() {
     <div className={styles.container}>
       <div className={styles.header}>
         <span className={styles.headerTitle}>📚 스터디룸 조회</span>
-        <button type="button" className={styles.logoutButton} onClick={logout}>
-          로그아웃
-        </button>
+        <div className={styles.headerActions}>
+          <button type="button" className={styles.autoReserveButton} onClick={() => setIsAutoModalOpen(true)}>
+            자동 방 배정
+          </button>
+          <button type="button" className={styles.logoutButton} onClick={logout}>
+            로그아웃
+          </button>
+        </div>
       </div>
       <div className={styles.dateTabs}>
         {DATE_TABS.map((tab, index) => (
@@ -190,6 +180,16 @@ function StudyRoomsView() {
           handleModalClose()
           refresh()
         }}
+      />
+
+      <AutoReservationModal
+        isOpen={isAutoModalOpen}
+        onClose={() => setIsAutoModalOpen(false)}
+        onSuccess={() => {
+          setIsAutoModalOpen(false)
+          refresh()
+        }}
+        defaultDateIndex={selectedIndex}
       />
     </div>
   )

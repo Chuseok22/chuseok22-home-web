@@ -17,7 +17,7 @@
   background: var(--dc-bg-primary);
   border-radius: 8px;
   width: 100%;
-  max-width: 460px;
+  max-width: 480px;
   max-height: 90vh;
   overflow-y: auto;
   display: flex;
@@ -64,20 +64,57 @@
   letter-spacing: 0.05em;
 }
 
-/* ===== 예약 정보 ===== */
+/* ===== 날짜 탭 ===== */
 
-.infoRow {
+.dateTabs {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 2px;
 }
 
-.infoBadge {
+.dateTab {
+  padding: 6px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: var(--dc-text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 150ms, color 150ms;
   background: var(--dc-bg-secondary);
+  border: 1px solid transparent;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+
+.dateTab[data-selected='true'] {
+  border-color: var(--dc-brand);
+  color: var(--dc-brand);
+  background: color-mix(in srgb, var(--dc-brand) 10%, transparent);
+}
+
+.dateTab:hover:not([data-selected='true']) {
+  background: var(--dc-bg-secondary-alt);
+  color: var(--dc-text-normal);
+}
+
+/* ===== 시작 시간 선택 ===== */
+
+.timeSelect {
+  background: var(--dc-bg-secondary-alt);
+  border: 1px solid var(--dc-card-border);
+  border-radius: 3px;
+  padding: 8px 10px;
   color: var(--dc-text-normal);
   font-size: 13px;
-  padding: 4px 10px;
-  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  width: 120px;
+}
+
+.timeSelect:focus {
+  border-color: var(--dc-brand);
 }
 
 /* ===== 사용 시간 선택 ===== */
@@ -118,7 +155,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: 180px;
+  max-height: 160px;
   overflow-y: auto;
 }
 
@@ -313,6 +350,23 @@
 }
 
 .cancelBtn:hover {
+  color: var(--dc-text-normal);
+}
+
+.cancelInlineBtn {
+  background: transparent;
+  border: none;
+  color: var(--dc-text-muted);
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: color 150ms;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.cancelInlineBtn:hover {
   color: var(--dc-text-normal);
 }
 
