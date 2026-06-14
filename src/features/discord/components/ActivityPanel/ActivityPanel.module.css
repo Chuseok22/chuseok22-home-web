@@ -166,3 +166,13 @@
   background: var(--dc-brand);
   animation: skeletonPulse 1s ease-in-out infinite;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonDot,
+  .skeletonTitle,
+  .skeletonMeta,
+  .skeletonTimestamp,
+  .loadingDot {
+    animation: none;
+  }
+}
