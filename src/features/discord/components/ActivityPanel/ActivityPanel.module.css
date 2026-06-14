@@ -75,3 +75,104 @@
     display: none;
   }
 }
+
+/* 스켈레톤 로딩 */
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+.skeletonItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 12px;
+}
+
+.skeletonDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dc-bg-modifier-hover);
+  flex-shrink: 0;
+  margin-top: 4px;
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeletonContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.skeletonTitle {
+  height: 12px;
+  width: 70%;
+  border-radius: 3px;
+  background: var(--dc-bg-modifier-hover);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeletonMeta {
+  height: 10px;
+  width: 90%;
+  border-radius: 3px;
+  background: var(--dc-bg-modifier-hover);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+  animation-delay: 0.15s;
+}
+
+.skeletonTimestamp {
+  height: 10px;
+  width: 40%;
+  border-radius: 3px;
+  background: var(--dc-bg-modifier-hover);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+
+/* 에러 상태 */
+.error {
+  padding: 12px 16px;
+  font-size: var(--text-xs);
+  color: var(--dc-text-muted);
+  text-align: center;
+}
+
+/* 하단 무한 스크롤 트리거 영역 */
+.sentinel {
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* 추가 로딩 인디케이터 */
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.loadingDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dc-brand);
+  animation: skeletonPulse 1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonDot,
+  .skeletonTitle,
+  .skeletonMeta,
+  .skeletonTimestamp,
+  .loadingDot {
+    animation: none;
+  }
+}

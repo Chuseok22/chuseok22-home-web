@@ -18,9 +18,3 @@ export interface Server {
   channels: Channel[]
 }
 
-export interface ActivityItem {
-  id: string
-  title: string
-  meta: string
-  timestamp: string
-}
