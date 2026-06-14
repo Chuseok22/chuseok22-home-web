@@ -31,8 +31,8 @@ Project-level rules for Claude Code. These override global rules on conflicts.
 
 - **API 서버**: Python + Django (DRF) 기반, 도메인 `api.chuseok22.com`
 - **Admin Dashboard**: Django Templates + DaisyUI (SSR)
-- **Swagger UI**: `https://api.chuseok22.com/docs/swagger/index.html`
-- **Swagger Docs (OpenAPI)**: `https://api.chuseok22.com/v3/api-docs`
+- **Swagger UI**: `https://api.chuseok22.com/docs/swagger/`
+- **Swagger Docs (OpenAPI)**: `https://api.chuseok22.com/api/schema/`
 
 ### API 사용 규칙 (필수)
 

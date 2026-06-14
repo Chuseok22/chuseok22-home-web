@@ -2,7 +2,8 @@
 export function formatOccurredAt(occurred_at: string): string {
   const now = new Date()
   const date = new Date(occurred_at)
-  const diffMs = now.getTime() - date.getTime()
+  // 서버-클라이언트 시계 차이로 미래 타임스탬프가 올 경우 음수 diff 방어
+  const diffMs = Math.max(0, now.getTime() - date.getTime())
   const diffMinutes = Math.floor(diffMs / (1000 * 60))
   const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))

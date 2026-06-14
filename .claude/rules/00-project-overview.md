@@ -16,7 +16,7 @@
 - Animation: framer-motion (채널 전환, 서버 아이콘 hover, 모바일 스와이프 제스처)
 - Icons: lucide-react
 - Database / storage: 없음 (정적 콘텐츠 중심, JWT 토큰은 localStorage 사용)
-- External API: Python + Django (DRF) 서버 — `api.chuseok22.com` (Swagger: `https://api.chuseok22.com/docs/swagger/index.html`)
+- External API: Python + Django (DRF) 서버 — `api.chuseok22.com` (Swagger UI: `https://api.chuseok22.com/docs/swagger/`, OpenAPI Schema: `https://api.chuseok22.com/api/schema/`)
 - Infra / deployment: 개인 NAS 서버에 Docker 컨테이너로 운영, GitHub Actions CI/CD
 
 ## Important directories
