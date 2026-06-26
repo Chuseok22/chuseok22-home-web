@@ -55,6 +55,7 @@ export const servers: Server[] = [
     channels: [
       { id: 'tools', name: 'tools', categoryId: 'tools' },
       { id: 'study-rooms', name: 'study-rooms', categoryId: 'tools' },
+      { id: 'student-search', name: 'student-search', categoryId: 'tools' },
     ],
   },
   {
