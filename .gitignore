@@ -3,7 +3,7 @@ dist
 .idea
 .env.*
 docs
-.issue
+.issue/
 .playwright-mcp
 .superpowers
-.report
+.report/
