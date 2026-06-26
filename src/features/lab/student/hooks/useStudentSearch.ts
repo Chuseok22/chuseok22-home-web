@@ -67,7 +67,9 @@ export function useStudentSearch(): UseStudentSearchResult {
         if (err instanceof DOMException && err.name === 'AbortError') return
         setError('검색 중 오류가 발생했습니다.')
       } finally {
-        setIsLoading(false)
+        if (!controller.signal.aborted) {
+          setIsLoading(false)
+        }
       }
     }
 
